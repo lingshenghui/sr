@@ -1,0 +1,414 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMSI+PC9yZWN0Pgo8L3N2Zz4=');
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* 引导页样式 */
+.guide-page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+}
+
+.guide-page.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.welcome-text {
+    font-size: 2em;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    background: linear-gradient(45deg, #fff, #f0f0f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+.tap-hint {
+    font-size: 1.2em;
+    opacity: 0.8;
+    animation: bounce 1s infinite;
+}
+
+/* 生日页面样式 */
+.birthday-page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.cake {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.candle {
+    width: 20px;
+    height: 60px;
+    background: linear-gradient(to bottom, #ff6b6b, #ff8e8e);
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    animation: flicker 0.5s infinite alternate;
+}
+
+.wish-text {
+    text-align: center;
+    color: white;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s;
+    margin-bottom: 180px;
+    z-index: 2;
+}
+
+/* 气球动画 */
+.balloons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.balloon {
+    width: 60px;
+    height: 70px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -100px;
+    animation: float 4s infinite;
+    box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.2);
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), transparent);
+}
+
+/* 卡片样式 */
+.card-page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    width: 300px;
+    height: 400px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+}
+
+.card-front,
+.card-inside {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.card-front {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+}
+
+.card-inside {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, #ffd6e7, #fff5f5);
+}
+
+/* 动画关键帧 */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes flicker {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-100vh) rotate(180deg); }
+    100% { transform: translateY(-200vh) rotate(360deg); }
+}
+
+/* 添加背景动画 */
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 添加闪光效果 */
+.welcome-text {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    background: linear-gradient(45deg, #fff, #f0f0f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+/* 添加星星装饰 */
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 1s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+/* 在文件开头添加 Canvas 样式 */
+#confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* 修改礼物盒子样式 */
+.gift-box {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+    animation: giftFloat 3s ease-in-out infinite;
+    perspective: 1000px;
+    z-index: 1;
+}
+
+.gift-box:hover {
+    transform: translate(-50%, -5px) scale(1.05);
+    filter: brightness(1.1);
+}
+
+.gift-box-bottom {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+    border-radius: 10px;
+    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3);
+    transform: translateZ(0);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.gift-box-top {
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    top: -20px;
+    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+    border-radius: 5px;
+    transform-origin: bottom;
+    transition: transform 0.5s;
+    box-shadow: 0 -5px 15px rgba(255, 105, 180, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.gift-ribbon {
+    position: absolute;
+    width: 30px;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom, #FF1493, #FF69B4);
+    box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
+    border-left: 1px solid rgba(255, 255, 255, 0.4);
+    border-right: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.gift-bow {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    filter: drop-shadow(0 5px 15px rgba(255, 20, 147, 0.4));
+}
+
+.gift-bow::before,
+.gift-bow::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #FF69B4, #FF1493);
+    border-radius: 50% 50% 0 50%;
+    transform: rotate(-45deg);
+    left: 0;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.gift-bow::after {
+    left: auto;
+    right: 0;
+    transform: rotate(45deg);
+    border-radius: 50% 50% 50% 0;
+}
+
+.gift-hint {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: -40px;
+    color: white;
+    font-size: 1.2em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    animation: pulseText 1.5s infinite;
+    pointer-events: none;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+@keyframes pulseText {
+    0%, 100% { 
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes giftFloat {
+    0%, 100% { 
+        transform: translate(-50%, 0) rotate(0deg);
+    }
+    50% { 
+        transform: translate(-50%, -15px) rotate(1deg);
+    }
+}
+
+.gift-box.opening {
+    animation: giftOpen 0.8s ease-out forwards;
+}
+
+.gift-box.opening .gift-box-top {
+    transform: rotateX(-180deg) translateY(-20px);
+    opacity: 0.8;
+}
+
+.gift-box.opening .gift-bow {
+    transform: translateX(-50%) scale(1.2);
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+@keyframes giftOpen {
+    0% { 
+        transform: translate(-50%, 0) scale(1) rotate(0);
+    }
+    20% { 
+        transform: translate(-50%, 0) scale(1.1) rotate(-5deg);
+    }
+    40% { 
+        transform: translate(-50%, 0) scale(1.1) rotate(5deg);
+    }
+    60% { 
+        transform: translate(-50%, 0) scale(1.15) rotate(-3deg);
+    }
+    80% { 
+        transform: translate(-50%, 0) scale(1.15) rotate(3deg);
+    }
+    100% { 
+        transform: translate(-50%, 0) scale(0) rotate(0);
+        opacity: 0;
+    }
+} 
