@@ -146,6 +146,7 @@ body {
     position: relative;
     transform-style: preserve-3d;
     transition: transform 1s;
+    margin: 20px auto;
 }
 
 .card-front,
@@ -166,12 +167,61 @@ body {
 }
 
 .card-front {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+    background-image: url('img/my.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .card-inside {
     transform: rotateY(180deg);
     background: linear-gradient(135deg, #ffd6e7, #fff5f5);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 添加轮播样式 */
+.slideshow {
+    width: 100%;
+    height: 50%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+}
+
+.slides {
+    width: 300%;  /* 根据图片数量调整 */
+    height: 100%;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    width: calc(100% / 3);  /* 根据图片数量调整 */
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.card-text {
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.card-text p {
+    margin: 5px 0;
+    font-size: 1.2em;
+    color: #ff6b6b;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* 动画关键帧 */
@@ -269,32 +319,95 @@ body {
 }
 
 .gift-box:hover {
-    transform: translate(-50%, -5px) scale(1.05);
+    transform: translate(-50%, -8px) scale(1.05);
     filter: brightness(1.1);
+}
+
+.gift-box:hover .gift-bow::before {
+    transform: rotate(-55deg) scale(1.1);
+}
+
+.gift-box:hover .gift-bow::after {
+    transform: rotate(55deg) scale(1.1);
+}
+
+.gift-box.opening {
+    animation: giftOpen 1.2s ease-out forwards;
+}
+
+.gift-box.opening .gift-box-top {
+    transform: rotateX(-180deg) translateY(-20px);
+    opacity: 0;
+}
+
+.gift-box.opening .gift-bow {
+    transform: translateX(-50%) scale(1.3);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+@keyframes giftOpen {
+    0% { 
+        transform: translate(-50%, 0) scale(1);
+    }
+    20% { 
+        transform: translate(-50%, -20px) scale(1.1);
+    }
+    60% { 
+        transform: translate(-50%, -10px) scale(1.15) rotate(5deg);
+    }
+    80% { 
+        transform: translate(-50%, -15px) scale(1.15) rotate(-5deg);
+    }
+    100% { 
+        transform: translate(-50%, 100px) scale(0);
+        opacity: 0;
+    }
 }
 
 .gift-box-bottom {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
-    border-radius: 10px;
-    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3);
+    background: linear-gradient(145deg, #ff9a9e 0%, #fad0c4 100%);
+    border-radius: 15px;
+    box-shadow: 
+        0 15px 35px rgba(255, 105, 180, 0.3),
+        inset 0 -10px 20px rgba(0, 0, 0, 0.1);
     transform: translateZ(0);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+}
+
+.gift-box-bottom::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 45%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0.2) 55%,
+        transparent 100%);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
 }
 
 .gift-box-top {
     position: absolute;
-    width: 100%;
-    height: 40px;
-    top: -20px;
-    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
-    border-radius: 5px;
+    width: 110%;
+    height: 45px;
+    top: -25px;
+    left: -5%;
+    background: linear-gradient(145deg, #ff9a9e 0%, #fad0c4 100%);
+    border-radius: 12px;
     transform-origin: bottom;
     transition: transform 0.5s;
-    box-shadow: 0 -5px 15px rgba(255, 105, 180, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 -5px 15px rgba(255, 105, 180, 0.2),
+        inset 0 5px 10px rgba(255, 255, 255, 0.5);
+    border: 3px solid rgba(255, 255, 255, 0.5);
 }
 
 .gift-ribbon {
@@ -303,43 +416,51 @@ body {
     height: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(to bottom, #FF1493, #FF69B4);
-    box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
-    border-left: 1px solid rgba(255, 255, 255, 0.4);
-    border-right: 1px solid rgba(255, 255, 255, 0.4);
+    background: linear-gradient(to bottom, #ff5e62, #ff9a9e);
+    box-shadow: 
+        0 0 15px rgba(255, 20, 147, 0.4),
+        inset 0 0 10px rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.6);
 }
 
 .gift-bow {
     position: absolute;
-    width: 80px;
-    height: 80px;
-    top: -40px;
+    width: 90px;
+    height: 90px;
+    top: -45px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
-    filter: drop-shadow(0 5px 15px rgba(255, 20, 147, 0.4));
 }
 
 .gift-bow::before,
 .gift-bow::after {
     content: '';
     position: absolute;
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(45deg, #FF69B4, #FF1493);
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(45deg, #ff5e62, #ff9a9e);
     border-radius: 50% 50% 0 50%;
     transform: rotate(-45deg);
-    left: 0;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    left: -5px;
+    box-shadow: 
+        3px 3px 10px rgba(0, 0, 0, 0.2),
+        inset 2px 2px 5px rgba(255, 255, 255, 0.4);
     transition: transform 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.6);
 }
 
 .gift-bow::after {
     left: auto;
-    right: 0;
+    right: -5px;
     transform: rotate(45deg);
     border-radius: 50% 50% 50% 0;
+}
+
+/* 添加新的闪光动画 */
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 .gift-hint {
@@ -375,40 +496,4 @@ body {
         transform: translate(-50%, -15px) rotate(1deg);
     }
 }
-
-.gift-box.opening {
-    animation: giftOpen 0.8s ease-out forwards;
-}
-
-.gift-box.opening .gift-box-top {
-    transform: rotateX(-180deg) translateY(-20px);
-    opacity: 0.8;
-}
-
-.gift-box.opening .gift-bow {
-    transform: translateX(-50%) scale(1.2);
-    opacity: 0;
-    transition: all 0.5s ease;
-}
-
-@keyframes giftOpen {
-    0% { 
-        transform: translate(-50%, 0) scale(1) rotate(0);
-    }
-    20% { 
-        transform: translate(-50%, 0) scale(1.1) rotate(-5deg);
-    }
-    40% { 
-        transform: translate(-50%, 0) scale(1.1) rotate(5deg);
-    }
-    60% { 
-        transform: translate(-50%, 0) scale(1.15) rotate(-3deg);
-    }
-    80% { 
-        transform: translate(-50%, 0) scale(1.15) rotate(3deg);
-    }
-    100% { 
-        transform: translate(-50%, 0) scale(0) rotate(0);
-        opacity: 0;
-    }
-} 
+ 

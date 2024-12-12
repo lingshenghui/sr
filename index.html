@@ -9,8 +9,8 @@
 <body>
     <div class="stars"></div>
     <canvas id="confetti"></canvas>
-    <audio id="celebrationSound" preload="auto">
-        <source src="./muise/1.mp3" type="audio/mpeg">
+    <audio id="celebrationSound" preload="auto" autoplay loop>
+        <source src="muise/1.mp3" type="audio/mpeg">
     </audio>
     <div class="container">
         <!-- 引导页 -->
@@ -50,10 +50,20 @@
                     <p>点击打开卡片</p>
                 </div>
                 <div class="card-inside">
-                    <p>愿你：</p>
-                    <p>生日快乐！</p>
-                    <p>心想事成！</p>
-                    <p>永远开心！</p>
+                    <div class="slideshow">
+                        <div class="slides">
+                            <!-- 这里添加你的图片，可以根据需要增减数量 -->
+                            <div class="slide" style="background-image: url('img/my.jpg')"></div>
+                            <div class="slide" style="background-image: url('img/my.jpg')"></div>
+                            <div class="slide" style="background-image: url('img/my.jpg')"></div>
+                        </div>
+                    </div>
+                    <div class="card-text">
+                        <p>愿你：</p>
+                        <p>生日快乐！</p>
+                        <p>心想事成！</p>
+                        <p>永远开心！</p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,3 +1,21 @@
+const audio = document.getElementById('celebrationSound');
+
+// 确保音频在用户第一次点击时播放
+document.addEventListener('click', function initAudio() {
+    audio.play().catch(function(error) {
+        console.log("播放失败: ", error);
+    });
+    // 移除这个事件监听器，这样只会执行一次
+    document.removeEventListener('click', initAudio);
+}, { once: true });
+
+// 如果音频加载完成后没有自动播放，尝试播放
+audio.addEventListener('canplaythrough', function() {
+    audio.play().catch(function(error) {
+        console.log("自动播放失败，等待用户交互");
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const guidePage = document.getElementById('guide');
     const birthdayPage = document.getElementById('birthday');
@@ -8,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 礼花效果设置
     const canvas = document.getElementById('confetti');
     const ctx = canvas.getContext('2d');
-    const celebrationSound = document.getElementById('celebrationSound');
     
     // 设置画布尺寸
     function setCanvasSize() {
@@ -92,8 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function playCelebration() {
         if (!isAnimating) {
             isAnimating = true;
-            celebrationSound.currentTime = 0;
-            celebrationSound.play();
             particles.forEach(particle => particle.reset());
             animate();
         }
@@ -160,6 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.transform = 'rotateY(180deg)';
             playCelebration();
             cardFlipped = true;
+            // 初始化轮播
+            initSlideshow();
         }
     });
 
@@ -180,4 +197,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 在初始化时调用
     createStars();
+
+    // 在 DOMContentLoaded 事件监听器中添加轮播逻辑
+    function initSlideshow() {
+        const slides = document.querySelector('.slides');
+        const slideCount = document.querySelectorAll('.slide').length;
+        let currentSlide = 0;
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slideCount;
+            slides.style.transform = `translateX(-${currentSlide * (100 / slideCount)}%)`;
+        }
+
+        // 每3秒切换一次图片
+        setInterval(nextSlide, 3000);
+    }
 }); 
