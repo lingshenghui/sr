@@ -134,15 +134,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 添加气球动画
         createBalloons();
+        
+        // 添加彩带效果
+        createRibbons();
 
-        // 礼物盒子点击事件
+        // 保持原有的礼物盒子点击事件
         const giftBox = document.querySelector('.gift-box');
         giftBox.addEventListener('click', () => {
             if (currentStep === 1) {
                 giftBox.classList.add('opening');
                 playCelebration();
                 
-                // 等待动画完成后显示卡片
                 setTimeout(() => {
                     birthdayPage.style.display = 'none';
                     cardPage.style.display = 'flex';
@@ -211,5 +213,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 每3秒切换一次图片
         setInterval(nextSlide, 3000);
+    }
+
+    // 在 DOMContentLoaded 事件监听器中添加彩带效果
+    function createRibbons() {
+        const ribbonsContainer = document.querySelector('.ribbons');
+        const colors = [
+            'linear-gradient(45deg, #ff6b6b, #ffd93d)',
+            'linear-gradient(45deg, #4ecdc4, #45b7d1)',
+            'linear-gradient(45deg, #ff9a9e, #fad0c4)',
+            'linear-gradient(45deg, #a8edea, #fed6e3)'
+        ];
+
+        function createRibbon() {
+            const ribbon = document.createElement('div');
+            ribbon.className = 'ribbon';
+            ribbon.style.left = Math.random() * window.innerWidth + 'px';
+            ribbon.style.background = colors[Math.floor(Math.random() * colors.length)];
+            ribbon.style.animationDuration = (2 + Math.random() * 3) + 's';
+            ribbonsContainer.appendChild(ribbon);
+
+            // 动画结束后移除彩带
+            ribbon.addEventListener('animationend', () => {
+                ribbon.remove();
+            });
+        }
+
+        // 立即创建一些彩带
+        for(let i = 0; i < 10; i++) {
+            createRibbon();
+        }
+
+        // 持续创建新彩带
+        setInterval(createRibbon, 300);  // 调整为更频繁的间隔
     }
 }); 
